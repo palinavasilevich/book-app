@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/css";
 
-const lora = Lora({subsets:['latin'],variable:'--font-serif'});
+const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +28,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-serif", lora.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        "font-serif",
+        lora.variable,
+      )}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
