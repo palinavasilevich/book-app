@@ -38,7 +38,7 @@ export default function RootLayout({
         lora.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
