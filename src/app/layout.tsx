@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lora } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/css";
+import { QueryProvider } from "@/shared/components/query-provider";
 
 const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
 
@@ -37,7 +38,9 @@ export default function RootLayout({
         lora.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }
