@@ -1,20 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lora } from "next/font/google";
+import { Lora } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/css";
 import { QueryProvider } from "@/shared/components/query-provider";
 
 const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -29,14 +19,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(
-        "h-full",
-        "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        "font-serif",
-        lora.variable,
-      )}
+      className={cn("h-full", "antialiased", lora.variable, "font-serif")}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>{children}</QueryProvider>
