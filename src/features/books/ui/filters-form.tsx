@@ -52,23 +52,6 @@ export function FiltersForm({ filters, onChange }: FiltersFormProps) {
 
       <div>
         <label
-          htmlFor="topic"
-          className="mb-2 block text-sm font-medium text-neutral-700"
-        >
-          Topic
-        </label>
-        <input
-          id="topic"
-          type="text"
-          value={filters.topic}
-          onChange={(e) => onChange({ ...filters, topic: e.target.value })}
-          placeholder="e.g. adventure, philosophy, poetry..."
-          className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm outline-none focus:border-neutral-500 focus:ring-2 focus:ring-neutral-200"
-        />
-      </div>
-
-      <div>
-        <label
           htmlFor="genre"
           className="mb-2 block text-sm font-medium text-neutral-700"
         >

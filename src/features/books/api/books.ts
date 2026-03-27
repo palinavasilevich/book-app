@@ -3,20 +3,26 @@ import type { BooksResponse, Language } from "@/shared/types";
 
 export type BookFilters = {
   languages: Language[];
-  topic: string;
-  authorName: string;
   genre: string;
+  authorName: string;
 };
 
-export async function fetchBooks(filters: BookFilters): Promise<BooksResponse> {
+export async function fetchBooks(
+  filters: BookFilters,
+  page?: number,
+): Promise<BooksResponse> {
   const params = new URLSearchParams();
 
   if (filters.languages?.length > 0) {
     params.set("languages", filters.languages.join(","));
   }
 
-  if (filters.topic?.trim()) {
-    params.set("topic", filters.topic.trim());
+  if (filters.genre) {
+    params.set("topic", filters.genre);
+  }
+
+  if (page && page > 1) {
+    params.set("page", String(page));
   }
 
   const response = await fetch(`${ENDPOINTS.BOOKS_LIST}?${params.toString()}`);

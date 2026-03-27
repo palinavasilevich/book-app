@@ -8,7 +8,6 @@ import type { BookFilters } from "../api/books";
 
 const DEFAULT_FILTERS: BookFilters = {
   languages: ["en"],
-  topic: "",
   authorName: "",
   genre: "",
 };
@@ -38,7 +37,7 @@ export function RandomBookPicker() {
         disabled={isFetching}
         className="self-start rounded-xl bg-neutral-800 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 disabled:opacity-50"
       >
-        {isFetching ? "Finding a book..." : "Pick a random book"}
+        {isFetching ? "Search book..." : "Select a random book"}
       </button>
 
       {isError && (
