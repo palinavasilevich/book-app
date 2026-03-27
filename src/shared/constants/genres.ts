@@ -1,0 +1,17 @@
+export const GENRES_BOOKS: { id: string; label: string }[] = [
+  { id: "1", label: "Fiction" },
+  { id: "2", label: "Non-Fiction" },
+  { id: "3", label: "Science Fiction" },
+  { id: "4", label: "Fantasy" },
+  { id: "5", label: "Mystery" },
+  { id: "6", label: "Thriller" },
+  { id: "7", label: "Horror" },
+  { id: "8", label: "Romance" },
+  { id: "9", label: "Historical Fiction" },
+  { id: "10", label: "Biography" },
+  { id: "11", label: "Self-Help" },
+  { id: "12", label: "Science" },
+  { id: "13", label: "Philosophy" },
+  { id: "14", label: "Poetry" },
+  { id: "15", label: "Children" },
+];

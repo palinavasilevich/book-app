@@ -1,8 +1,25 @@
 import { ENDPOINTS } from "@/shared/constants/endpoints";
-import type { BooksResponse } from "@/shared/types";
+import type { BooksResponse, Language } from "@/shared/types";
 
-async function fetchBooks(): Promise<BooksResponse> {
-  const response = await fetch(`${ENDPOINTS.API_BASE_URL}/books`);
+export type BookFilters = {
+  languages: Language[];
+  topic: string;
+  authorName: string;
+  genre: string;
+};
+
+export async function fetchBooks(filters: BookFilters): Promise<BooksResponse> {
+  const params = new URLSearchParams();
+
+  if (filters.languages?.length > 0) {
+    params.set("languages", filters.languages.join(","));
+  }
+
+  if (filters.topic?.trim()) {
+    params.set("topic", filters.topic.trim());
+  }
+
+  const response = await fetch(`${ENDPOINTS.BOOKS_LIST}?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch books: ${response.status}`);
@@ -10,8 +27,3 @@ async function fetchBooks(): Promise<BooksResponse> {
 
   return response.json();
 }
-
-export const getBookListQuery = () => ({
-  queryKey: ["books"],
-  queryFn: fetchBooks,
-});
