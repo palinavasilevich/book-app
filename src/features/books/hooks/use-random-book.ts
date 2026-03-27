@@ -21,15 +21,25 @@ async function fetchRandomBook(filters: BookFilters): Promise<Book> {
   const page =
     randomPage === 1 ? firstPage : await fetchBooks(filters, randomPage);
 
-  const results = page.results;
+  const authorQuery = filters.author.trim().toLowerCase();
+  const results = authorQuery
+    ? page.results.filter((book) =>
+        book.authors.some((a) => a.name.toLowerCase().includes(authorQuery)),
+      )
+    : page.results;
+
+  if (results.length === 0) {
+    throw new Error("No matching books on this page. Try again.");
+  }
+
   return results[Math.floor(Math.random() * results.length)];
 }
 
-export function useRandomBook(filters: BookFilters, triggerKey: number) {
+export function useRandomBook(filters: BookFilters) {
   return useQuery({
-    queryKey: ["random-book", triggerKey],
+    queryKey: ["random-book", filters],
     queryFn: () => fetchRandomBook(filters),
-    enabled: triggerKey > 0,
+    enabled: false,
     retry: false,
   });
 }

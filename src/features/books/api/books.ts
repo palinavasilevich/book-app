@@ -4,7 +4,7 @@ import type { BooksResponse, Language } from "@/shared/types";
 export type BookFilters = {
   languages: Language[];
   genre: string;
-  authorName: string;
+  author: string;
 };
 
 export async function fetchBooks(
@@ -19,6 +19,10 @@ export async function fetchBooks(
 
   if (filters.genre) {
     params.set("topic", filters.genre);
+  }
+
+  if (filters.author.trim()) {
+    params.set("search", filters.author.trim());
   }
 
   if (page && page > 1) {

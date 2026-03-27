@@ -1,5 +1,4 @@
-import { RandomBookPicker } from "@/features/books/ui/random-book-picker";
-import { Suspense } from "react";
+import { RandomBookSelector } from "@/features/books/ui/random-book-selector";
 
 export default function Home() {
   return (
@@ -8,9 +7,7 @@ export default function Home() {
       <p className="mb-10 text-neutral-500">
         Set your filters and let us pick a random book for you.
       </p>
-      <Suspense fallback={<p>Loading...</p>}>
-        <RandomBookPicker />
-      </Suspense>
+      <RandomBookSelector />
     </main>
   );
 }

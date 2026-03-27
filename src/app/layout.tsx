@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Lora } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/shared/lib/css";
-import { QueryProvider } from "@/shared/components/query-provider";
+import { cn } from "@/shared/lib/utils";
+import { QueryProvider } from "@/shared/ui/query-provider";
 
 const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
 
