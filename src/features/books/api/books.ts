@@ -7,27 +7,32 @@ export type BookFilters = {
   author: string;
 };
 
+export const PAGE_SIZE = 25;
+
 export async function fetchBooks(
   filters: BookFilters,
-  page?: number,
+  offset = 0,
 ): Promise<BooksResponse> {
   const params = new URLSearchParams();
+  params.set("limit", String(PAGE_SIZE));
+  params.set(
+    "fields",
+    "key,title,author_name,subject,cover_i,first_publish_year,edition_count",
+  );
 
-  if (filters.languages?.length > 0) {
-    params.set("languages", filters.languages.join(","));
-  }
-
-  if (filters.genre) {
-    params.set("topic", filters.genre);
+  if (offset > 0) {
+    params.set("offset", String(offset));
   }
 
   if (filters.author.trim()) {
-    params.set("search", filters.author.trim());
+    params.set("author", filters.author.trim());
   }
 
-  if (page && page > 1) {
-    params.set("page", String(page));
+  if (filters.genre) {
+    params.set("subject", filters.genre);
   }
+
+  filters.languages?.forEach((lang) => params.append("language", lang));
 
   const response = await fetch(`${ENDPOINTS.BOOKS_LIST}?${params.toString()}`);
 

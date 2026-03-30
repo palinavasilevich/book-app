@@ -9,7 +9,7 @@ import { Spinner } from "@/shared/ui/kit/spinner";
 import { Button } from "@/shared/ui/kit/button";
 
 const DEFAULT_FILTERS: BookFilters = {
-  languages: ["en"],
+  languages: ["eng"],
   author: "",
   genre: "",
 };
@@ -47,6 +47,8 @@ export function RandomBookSelector() {
             <Spinner data-icon="inline-start" />
             Searching for a book...
           </>
+        ) : book ? (
+          "Try again"
         ) : (
           "Select a random book"
         )}

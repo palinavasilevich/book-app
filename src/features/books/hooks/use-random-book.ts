@@ -1,32 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchBooks, type BookFilters } from "../api/books";
+import { fetchBooks, PAGE_SIZE, type BookFilters } from "../api/books";
 import type { Book } from "@/shared/types";
 
-const PAGE_SIZE = 32;
-const MAX_PAGES = 100;
+const MAX_RESULTS = 1000;
 
 async function fetchRandomBook(filters: BookFilters): Promise<Book> {
-  const firstPage = await fetchBooks(filters, 1);
+  const firstPage = await fetchBooks(filters, 0);
 
-  if (firstPage.count === 0 || firstPage.results.length === 0) {
+  if (firstPage.numFound === 0 || firstPage.docs.length === 0) {
     throw new Error("No books found for the selected filters.");
   }
 
-  const totalPages = Math.min(
-    Math.ceil(firstPage.count / PAGE_SIZE),
-    MAX_PAGES,
-  );
-  const randomPage = Math.ceil(Math.random() * totalPages);
+  const totalResults = Math.min(firstPage.numFound, MAX_RESULTS);
+  const randomOffset = Math.floor(Math.random() * totalResults);
+  const pageOffset = Math.floor(randomOffset / PAGE_SIZE) * PAGE_SIZE;
 
   const page =
-    randomPage === 1 ? firstPage : await fetchBooks(filters, randomPage);
+    pageOffset === 0 ? firstPage : await fetchBooks(filters, pageOffset);
 
   const authorQuery = filters.author.trim().toLowerCase();
   const results = authorQuery
-    ? page.results.filter((book) =>
-        book.authors.some((a) => a.name.toLowerCase().includes(authorQuery)),
+    ? page.docs.filter((book) =>
+        book.author_name?.some((a) => a.toLowerCase().includes(authorQuery)),
       )
-    : page.results;
+    : page.docs;
 
   if (results.length === 0) {
     throw new Error("No matching books on this page. Try again.");

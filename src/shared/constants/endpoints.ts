@@ -6,5 +6,5 @@ const API_BASE_URL =
 
 export const ENDPOINTS = {
   API_BASE_URL,
-  BOOKS_LIST: `${API_BASE_URL}/books`,
+  BOOKS_LIST: `${API_BASE_URL}/search.json`,
 };

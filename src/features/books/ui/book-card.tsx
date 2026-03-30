@@ -1,25 +1,31 @@
 import type { Book } from "@/shared/types";
+import { Skeleton } from "@/shared/ui/kit/skeleton";
+import Image from "next/image";
 
 type BookCardProps = {
   book: Book;
 };
 
 export function BookCard({ book }: BookCardProps) {
-  const cover = book.formats["image/jpeg"];
-  const readUrl =
-    book.formats["text/html"] ?? book.formats["text/plain; charset=utf-8"];
-  const authors = book.authors.map((a) => a.name).join(", ");
+  const cover = book.cover_i
+    ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+    : null;
+  const authors = book.author_name?.join(", ") ?? "";
 
   return (
     <div className="flex gap-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-      {cover && (
-        <img
-          src={cover}
-          alt={`Cover of ${book.title}`}
-          width={128}
-          height={192}
-          className="shrink-0 rounded-lg object-cover shadow"
-        />
+      {cover ? (
+        <div className="relative w-32 aspect-2/3 shrink-0">
+          <Image
+            src={cover}
+            alt={`Cover of ${book.title}`}
+            fill
+            sizes="(max-width: 640px) 100px, 128px"
+            className="rounded-lg shadow object-cover"
+          />
+        </div>
+      ) : (
+        <Skeleton className="w-32 aspect-2/3 rounded-lg" />
       )}
       <div className="flex flex-col justify-between gap-3">
         <div>
@@ -29,9 +35,9 @@ export function BookCard({ book }: BookCardProps) {
           )}
         </div>
 
-        {book.subjects.length > 0 && (
+        {book.subject && book.subject.length > 0 && (
           <ul className="flex flex-wrap gap-1">
-            {book.subjects.slice(0, 5).map((subject) => (
+            {book.subject.slice(0, 5).map((subject) => (
               <li
                 key={subject}
                 className="rounded-full bg-neutral-100 px-2 py-0.5 text-xs text-neutral-600"
@@ -43,19 +49,19 @@ export function BookCard({ book }: BookCardProps) {
         )}
 
         <div className="flex items-center gap-4 text-sm">
-          <span className="text-neutral-400">
-            {book.download_count.toLocaleString()} downloads
-          </span>
-          {readUrl && (
-            <a
-              href={readUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-neutral-800 underline underline-offset-2 hover:text-neutral-600"
-            >
-              Read online
-            </a>
+          {book.first_publish_year && (
+            <span className="text-neutral-400">
+              First published {book.first_publish_year}
+            </span>
           )}
+          <a
+            href={`https://openlibrary.org${book.key}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-neutral-800 underline underline-offset-2 hover:text-neutral-600"
+          >
+            View on Open Library
+          </a>
         </div>
       </div>
     </div>
