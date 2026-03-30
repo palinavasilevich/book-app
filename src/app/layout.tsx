@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Lora } from "next/font/google";
+import { Lora, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { QueryProvider } from "@/shared/ui/query-provider";
+
+const geistMono = Geist_Mono({subsets:['latin'],variable:'--font-mono'});
 
 const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
 
@@ -19,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", lora.variable, "font-serif")}
+      className={cn("h-full", "antialiased", lora.variable, "font-mono", geistMono.variable)}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>{children}</QueryProvider>

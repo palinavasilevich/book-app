@@ -13,5 +13,6 @@ export type Book = {
   subject?: string[];
   cover_i?: number;
   first_publish_year?: number;
-  edition_count?: number;
+  edition_count: number;
+  language: Language[];
 };
