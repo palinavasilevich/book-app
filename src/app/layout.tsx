@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Lora, Geist_Mono, Figtree, Inter } from "next/font/google";
+import { Lora, Geist_Mono, Figtree, Inter, Public_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { QueryProvider } from "@/shared/ui/query-provider";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const publicSans = Public_Sans({subsets:['latin'],variable:'--font-sans'});
 
 const geistMono = Geist_Mono({subsets:['latin'],variable:'--font-mono'});
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", lora.variable, geistMono.variable, "font-sans", inter.variable)}
+      className={cn("h-full", "antialiased", lora.variable, geistMono.variable, "font-sans", publicSans.variable)}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>{children}</QueryProvider>
