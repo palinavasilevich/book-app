@@ -80,7 +80,6 @@ export const BookCard = React.memo(function BookCard({ book }: BookCardProps) {
         </div>
 
         <Button
-          asChild
           variant="outline"
           className="font-medium text-neutral-800 hover:text-neutral-600"
           aria-label={`View ${title} on Open Library`}
