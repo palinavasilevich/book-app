@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import { Lora, Geist_Mono } from "next/font/google";
+import { Lora, Geist_Mono, Figtree } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { QueryProvider } from "@/shared/ui/query-provider";
+
+const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
 
 const geistMono = Geist_Mono({subsets:['latin'],variable:'--font-mono'});
 
@@ -21,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", lora.variable, "font-mono", geistMono.variable)}
+      className={cn("h-full", "antialiased", lora.variable, geistMono.variable, "font-sans", figtree.variable)}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <QueryProvider>{children}</QueryProvider>
