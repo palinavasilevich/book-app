@@ -14,7 +14,7 @@ export function BookCard({ book }: BookCardProps) {
 
   return (
     <div className="flex gap-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-      {cover ? (
+      {cover && (
         <div className="relative w-32 aspect-2/3 shrink-0">
           <Image
             src={cover}
@@ -24,8 +24,6 @@ export function BookCard({ book }: BookCardProps) {
             className="rounded-lg shadow object-cover"
           />
         </div>
-      ) : (
-        <Skeleton className="w-32 aspect-2/3 rounded-lg" />
       )}
       <div className="flex flex-col justify-between gap-3">
         <div>
