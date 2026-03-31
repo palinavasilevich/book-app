@@ -1,54 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { FiltersForm } from "./filters-form";
 import { BookCard } from "./book-card";
-import { useRandomBook } from "../hooks/use-random-book";
-import type { BookFilters } from "../api/books";
 import { Spinner } from "@/shared/ui/kit/spinner";
 import { Button } from "@/shared/ui/kit/button";
 import { BookCardSkeleton } from "./book-card-skeleton";
-
-const DEFAULT_FILTERS: BookFilters = {
-  languages: ["eng"],
-  author: "",
-  genre: "",
-};
+import { useBookSelector } from "../hooks/use-book-selector";
 
 export function RandomBookSelector() {
-  const [draftFilters, setDraftFilters] =
-    useState<BookFilters>(DEFAULT_FILTERS);
-  const [appliedFilters, setAppliedFilters] =
-    useState<BookFilters>(DEFAULT_FILTERS);
-
   const {
-    data: book,
+    draftFilters,
+    setDraftFilters,
+    book,
     isFetching,
     isError,
     error,
-    refetch,
-  } = useRandomBook(appliedFilters);
+    isDirty,
+    hasFilters,
+    handleClick,
+  } = useBookSelector();
 
-  const isDirty =
-    JSON.stringify(draftFilters) !== JSON.stringify(appliedFilters);
-
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
+  const getButtonText = () => {
+    if (isFetching) {
+      return (
+        <>
+          <Spinner data-icon="inline-start" />
+          Searching for a book...
+        </>
+      );
     }
-    refetch();
-  }, [appliedFilters, refetch]);
 
-  function handleClick() {
     if (isDirty) {
-      setAppliedFilters(draftFilters);
-    } else {
-      refetch();
+      return book ? "Try another book" : "Select a random book";
     }
-  }
+
+    return "Select a random book";
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -56,22 +43,11 @@ export function RandomBookSelector() {
 
       <Button
         onClick={handleClick}
-        disabled={isFetching || !isDirty}
+        disabled={isFetching || !hasFilters}
         aria-busy={isFetching}
-        className="self-start rounded-xl px-6 py-5 text-sm font-medium text-white transition-colors hover:bg-violet-900 disabled:opacity-50 cursor-pointer"
+        className="self-start rounded-xl px-6 py-5 text-sm font-medium text-white cursor-pointer transition-colors hover:bg-violet-900 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isFetching ? (
-          <>
-            <Spinner data-icon="inline-start" />
-            Searching for a book...
-          </>
-        ) : isDirty ? (
-          "Apply filters & get book"
-        ) : book ? (
-          "Try another book"
-        ) : (
-          "Select a random book"
-        )}
+        {getButtonText()}
       </Button>
 
       {isError && (
@@ -80,8 +56,8 @@ export function RandomBookSelector() {
         </p>
       )}
 
-      {!book && isFetching && <BookCardSkeleton />}
       {book && <BookCard book={book} />}
+      {isFetching && <BookCardSkeleton />}
     </div>
   );
 }

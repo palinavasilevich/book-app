@@ -18,7 +18,7 @@ export async function fetchBooks(
   params.set("limit", String(PAGE_SIZE));
   params.set(
     "fields",
-    "key,title,author_name,subject,cover_i,first_publish_year,language,number_of_pages_median,first_sentence",
+    "key,title,author_name,subject,cover_i,first_publish_year,first_sentence,language,number_of_pages_median",
   );
 
   if (offset > 0) {
