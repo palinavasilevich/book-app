@@ -7,6 +7,8 @@ import { cn } from "@/shared/lib/utils";
 import { LANGUAGES } from "@/shared/constants/languages";
 import { GENRES_BOOKS } from "@/shared/constants/genres";
 import { Button } from "@/shared/ui/kit/button";
+import { SelectGenre } from "./filters-form/select-genre";
+import { Field, FieldLabel } from "@/shared/ui/kit/field";
 
 type FiltersFormProps = {
   filters: BookFilters;
@@ -32,7 +34,7 @@ export function FiltersForm({ filters, onChange }: FiltersFormProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4">
       <div>
         <p className="mb-2 text-sm font-medium text-neutral-700">Language</p>
         <div className="flex flex-wrap gap-2">
@@ -60,29 +62,10 @@ export function FiltersForm({ filters, onChange }: FiltersFormProps) {
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="genre"
-          className="mb-2 block text-sm font-medium text-neutral-700"
-        >
-          Genre
-        </label>
-        <select
-          id="genre"
-          name="genre"
-          value={filters.genre}
-          onChange={(e) => updateFilter("genre", e.target.value)}
-          className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm outline-none focus:border-neutral-500 focus:ring-2 focus:ring-neutral-200"
-        >
-          <option value="">Select genre...</option>
-          {GENRES_BOOKS.map((genre) => (
-            <option key={genre.id} value={genre.label}>
-              {genre.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
+      <Field className="w-full">
+        <FieldLabel>Genre</FieldLabel>
+        <SelectGenre />
+      </Field>
       <div>
         <label
           htmlFor="author"
@@ -100,6 +83,6 @@ export function FiltersForm({ filters, onChange }: FiltersFormProps) {
           className="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm outline-none focus:border-neutral-500 focus:ring-2 focus:ring-neutral-200"
         />
       </div>
-    </div>
+    </form>
   );
 }
