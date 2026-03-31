@@ -6,7 +6,7 @@
   "tailwind": {
     "config": "",
     "css": "src/app/globals.css",
-    "baseColor": "mist",
+    "baseColor": "taupe",
     "cssVariables": true,
     "prefix": ""
   },
@@ -19,7 +19,7 @@
     "lib": "@/shared/lib",
     "hooks": "@/shared/hooks"
   },
-  "menuColor": "inverted-translucent",
+  "menuColor": "inverted",
   "menuAccent": "subtle",
   "registries": {}
 }
