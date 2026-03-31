@@ -10,6 +10,7 @@ export const formatBookData = (book: OpenLibraryBook): Book => {
     language,
     edition_count,
     number_of_pages_median,
+    first_publish_year,
     first_sentence,
   } = book;
 
@@ -18,13 +19,15 @@ export const formatBookData = (book: OpenLibraryBook): Book => {
     title: title || "Title Unknown",
     authors: author_name?.join(", ") ?? "Unknown Author",
     coverUrl: cover_i
-      ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+      ? `https://covers.openlibrary.org/b/id/${cover_i}-M.jpg`
       : null,
     subjects: subject?.slice(0, 3) || [],
-    firstPublishYear: number_of_pages_median,
+    firstPublishYear: first_publish_year,
     languages: language?.join(", ") ?? "",
     editionCount: edition_count,
     pageCount: number_of_pages_median || "Pages Unknown",
-    description: first_sentence ? first_sentence[0] : "",
+    description: Array.isArray(first_sentence)
+      ? first_sentence[0]
+      : first_sentence?.value,
   };
 };

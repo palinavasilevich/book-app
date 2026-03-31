@@ -17,7 +17,7 @@ export type OpenLibraryBook = {
   edition_count: number;
   language: Language[];
   isbn?: string[];
-  first_sentence?: string[];
+  first_sentence?: string[] | { type: string; value: string };
 };
 
 export type Book = {
