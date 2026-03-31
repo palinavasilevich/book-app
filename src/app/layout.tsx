@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import { Lora, Geist_Mono, Public_Sans, Noto_Serif } from "next/font/google";
+import { Lora, Geist_Mono, Public_Sans, Noto_Serif, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
-import { QueryProvider } from "@/shared/ui/query-provider";
+import { Providers } from "@/shared/ui/providers";
 
-const notoSerifHeading = Noto_Serif({subsets:['latin'],variable:'--font-heading'});
+const notoSerifHeading = Noto_Serif({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
-const publicSans = Public_Sans({ subsets: ["latin"], variable: "--font-sans" });
+const ibmPlexSans = IBM_Plex_Sans({subsets:['latin'],variable:'--font-sans'});
 
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
-const lora = Lora({subsets:['latin'],variable:'--font-serif'});
+const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
 
 export const metadata: Metadata = {
   title: "What can I read today?",
@@ -25,15 +28,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
               "h-full",
               "antialiased",
+              lora.variable,
               geistMono.variable,
-              publicSans.variable,
-            , "font-serif", lora.variable, notoSerifHeading.variable)}
+              notoSerifHeading.variable,
+            , "font-sans", ibmPlexSans.variable)}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <QueryProvider>{children}</QueryProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
