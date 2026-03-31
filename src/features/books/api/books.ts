@@ -1,4 +1,4 @@
-import { OPEN_LIBRARY_BASE_URL } from "@/shared/constants/endpoints";
+import { BOOKS_API_URL } from "@/shared/constants/endpoints";
 import type { BooksResponse, Language } from "@/shared/types/book.types";
 
 export type BookFilters = {
@@ -35,7 +35,7 @@ export async function fetchBooks(
 
   filters.languages?.forEach((lang) => params.append("language", lang));
 
-  const response = await fetch(`${OPEN_LIBRARY_BASE_URL}?${params.toString()}`);
+  const response = await fetch(`${BOOKS_API_URL}?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch books: ${response.status}`);

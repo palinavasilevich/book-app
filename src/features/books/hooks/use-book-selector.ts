@@ -9,11 +9,18 @@ const DEFAULT_FILTERS: BookFilters = {
 };
 
 export function useBookSelector() {
-  const [draftFilters, setDraftFilters] = useState<BookFilters>(DEFAULT_FILTERS);
-  const [appliedFilters, setAppliedFilters] = useState<BookFilters>(DEFAULT_FILTERS);
+  const [draftFilters, setDraftFilters] =
+    useState<BookFilters>(DEFAULT_FILTERS);
+  const [appliedFilters, setAppliedFilters] =
+    useState<BookFilters>(DEFAULT_FILTERS);
 
-  const { data: book, isFetching, isError, error, refetch } =
-    useRandomBook(appliedFilters);
+  const {
+    data: book,
+    isFetching,
+    isError,
+    error,
+    refetch,
+  } = useRandomBook(appliedFilters);
 
   const isDirty =
     JSON.stringify(draftFilters) !== JSON.stringify(appliedFilters);

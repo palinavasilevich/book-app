@@ -30,9 +30,8 @@ export function RandomBookSelector() {
       );
     }
 
-    if (isDirty) {
-      return book ? "Try another book" : "Select a random book";
-    }
+    if (isDirty) return "Apply filters & get book";
+    if (book) return "Try another book";
 
     return "Select a random book";
   };
@@ -45,7 +44,7 @@ export function RandomBookSelector() {
         onClick={handleClick}
         disabled={isFetching || !hasFilters}
         aria-busy={isFetching}
-        className="self-start rounded-xl px-6 py-5 text-sm font-medium text-white cursor-pointer transition-colors hover:bg-violet-900 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="self-start rounded-xl px-6 py-5 text-sm font-medium text-white transition-colors hover:bg-violet-900 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {getButtonText()}
       </Button>
@@ -56,8 +55,7 @@ export function RandomBookSelector() {
         </p>
       )}
 
-      {book && <BookCard book={book} />}
-      {isFetching && <BookCardSkeleton />}
+      {isFetching ? <BookCardSkeleton /> : book && <BookCard book={book} />}
     </div>
   );
 }
