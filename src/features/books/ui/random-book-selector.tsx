@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiltersForm } from "./filters-form";
 import { BookCard } from "./book-card";
 import { useRandomBook } from "../hooks/use-random-book";
@@ -16,7 +16,10 @@ const DEFAULT_FILTERS: BookFilters = {
 };
 
 export function RandomBookSelector() {
-  const [filters, setFilters] = useState<BookFilters>(DEFAULT_FILTERS);
+  const [draftFilters, setDraftFilters] =
+    useState<BookFilters>(DEFAULT_FILTERS);
+  const [appliedFilters, setAppliedFilters] =
+    useState<BookFilters>(DEFAULT_FILTERS);
 
   const {
     data: book,
@@ -24,32 +27,48 @@ export function RandomBookSelector() {
     isError,
     error,
     refetch,
-  } = useRandomBook(filters);
+  } = useRandomBook(appliedFilters);
+
+  const isDirty =
+    JSON.stringify(draftFilters) !== JSON.stringify(appliedFilters);
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    refetch();
+  }, [appliedFilters, refetch]);
 
   function handleClick() {
-    refetch();
+    if (isDirty) {
+      setAppliedFilters(draftFilters);
+    } else {
+      refetch();
+    }
   }
 
   return (
     <div className="flex flex-col gap-8">
-      <FiltersForm filters={filters} onChange={setFilters} />
+      <FiltersForm filters={draftFilters} onChange={setDraftFilters} />
 
       <Button
         onClick={handleClick}
-        disabled={isFetching}
+        disabled={isFetching || !isDirty}
         aria-busy={isFetching}
-        className={`
-          self-start rounded-xl px-6 py-5 text-sm font-medium text-white 
-          transition-colors hover:bg-violet-900 disabled:opacity-50 cursor-pointer
-          `}
+        className="self-start rounded-xl px-6 py-5 text-sm font-medium text-white transition-colors hover:bg-violet-900 disabled:opacity-50 cursor-pointer"
       >
         {isFetching ? (
           <>
             <Spinner data-icon="inline-start" />
             Searching for a book...
           </>
+        ) : isDirty ? (
+          "Apply filters & get book"
         ) : book ? (
-          "Try again"
+          "Try another book"
         ) : (
           "Select a random book"
         )}
