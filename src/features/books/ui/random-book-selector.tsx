@@ -7,7 +7,7 @@ import { useRandomBook } from "../hooks/use-random-book";
 import type { BookFilters } from "../api/books";
 import { Spinner } from "@/shared/ui/kit/spinner";
 import { Button } from "@/shared/ui/kit/button";
-import { SkeletonBookCard } from "./skeleton-book-card";
+import { BookCardSkeleton } from "./book-card-skeleton";
 
 const DEFAULT_FILTERS: BookFilters = {
   languages: ["eng"],
@@ -61,7 +61,7 @@ export function RandomBookSelector() {
         </p>
       )}
 
-      {!book && isFetching && <SkeletonBookCard />}
+      {!book && isFetching && <BookCardSkeleton />}
       {book && <BookCard book={book} />}
     </div>
   );

@@ -13,7 +13,6 @@ export const formatBookData = (book: OpenLibraryBook): Book => {
     first_sentence,
   } = book;
 
-  console.log(book);
   return {
     key,
     title: title || "Title Unknown",
