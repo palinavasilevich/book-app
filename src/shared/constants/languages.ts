@@ -1,4 +1,4 @@
-import { Language } from "../types";
+import { Language } from "../types/book.types";
 
 export const LANGUAGES: { value: Language; label: string }[] = [
   { value: "eng", label: "English" },

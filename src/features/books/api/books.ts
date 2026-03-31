@@ -1,5 +1,5 @@
-import { ENDPOINTS } from "@/shared/constants/endpoints";
-import type { BooksResponse, Language } from "@/shared/types";
+import { OPEN_LIBRARY_BASE_URL } from "@/shared/constants/endpoints";
+import type { BooksResponse, Language } from "@/shared/types/book.types";
 
 export type BookFilters = {
   languages: Language[];
@@ -14,10 +14,11 @@ export async function fetchBooks(
   offset = 0,
 ): Promise<BooksResponse> {
   const params = new URLSearchParams();
+
   params.set("limit", String(PAGE_SIZE));
   params.set(
     "fields",
-    "key,title,author_name,subject,cover_i,first_publish_year,language,edition_count",
+    "key,title,author_name,subject,cover_i,first_publish_year,language,number_of_pages_median,first_sentence",
   );
 
   if (offset > 0) {
@@ -34,7 +35,7 @@ export async function fetchBooks(
 
   filters.languages?.forEach((lang) => params.append("language", lang));
 
-  const response = await fetch(`${ENDPOINTS.BOOKS_LIST}?${params.toString()}`);
+  const response = await fetch(`${OPEN_LIBRARY_BASE_URL}?${params.toString()}`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch books: ${response.status}`);

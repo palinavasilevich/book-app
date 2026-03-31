@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks, PAGE_SIZE, type BookFilters } from "../api/books";
-import type { Book } from "@/shared/types";
+import type { Book } from "@/shared/types/book.types";
+import { formatBookData } from "../utils/format-book-data";
 
 const MAX_RESULTS = 1000;
 
@@ -29,7 +30,9 @@ async function fetchRandomBook(filters: BookFilters): Promise<Book> {
     throw new Error("No matching books on this page. Try again.");
   }
 
-  return results[Math.floor(Math.random() * results.length)];
+  const randomBook = results[Math.floor(Math.random() * results.length)];
+
+  return formatBookData(randomBook);
 }
 
 export function useRandomBook(filters: BookFilters) {

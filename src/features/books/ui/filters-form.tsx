@@ -1,6 +1,6 @@
 "use client";
 
-import type { Language } from "@/shared/types";
+import type { Language } from "@/shared/types/book.types";
 import type { BookFilters } from "../api/books";
 import { cn } from "@/shared/lib/utils";
 import { LANGUAGES } from "@/shared/constants/languages";
@@ -40,9 +40,10 @@ export function FiltersForm({ filters, onChange }: FiltersFormProps) {
             return (
               <Button
                 key={value}
+                variant="outline"
                 onClick={() => toggleLanguage(value)}
                 className={cn(
-                  "rounded-full border px-3 py-1 text-sm transition-colors cursor-pointer",
+                  "rounded-full border p-3 text-sm transition-colors cursor-pointer",
                   selected
                     ? "border-violet-800 bg-violet-800 text-white"
                     : "border-neutral-300 bg-white text-neutral-600 hover:border-neutral-500",

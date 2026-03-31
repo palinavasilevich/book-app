@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import type { Book } from "@/shared/types";
+import type { Book } from "@/shared/types/book.types";
 import {
   Card,
   CardDescription,
@@ -11,22 +11,28 @@ import {
 } from "@/shared/ui/kit/card";
 
 import { Badge } from "@/shared/ui/kit/badge";
-import { Book as BookIcon, Globe } from "lucide-react";
+
 import { Button } from "@/shared/ui/kit/button";
-import { formatBookData } from "../utils/formatBookData";
+import { BookIcon, GlobeIcon } from "@phosphor-icons/react";
 
 type BookCardProps = {
   book: Book;
 };
 
 export const BookCard = React.memo(function BookCard({ book }: BookCardProps) {
-  const { title, authors, coverUrl, subjects, languages } =
-    formatBookData(book);
-  const editionCount = book.edition_count?.toLocaleString() ?? "—";
+  const {
+    title,
+    authors,
+    coverUrl,
+    subjects,
+    languages,
+    pageCount,
+    description,
+  } = book;
 
   return (
-    <Card className="flex flex-col gap-6 shadow-sm">
-      <CardHeader className="flex gap-4 flex-1">
+    <Card className="flex gap-6 shadow-sm">
+      <div className="flex px-5">
         {coverUrl ? (
           <div className="relative w-32 aspect-2/3">
             <Image
@@ -43,39 +49,45 @@ export const BookCard = React.memo(function BookCard({ book }: BookCardProps) {
           </div>
         )}
 
-        <div className="flex flex-col gap-4 flex-1">
-          <div>
-            <CardTitle className="text-xl font-semibold leading-tight line-clamp-2">
-              {title}
-            </CardTitle>
-            <CardDescription className="text-sm text-neutral-500 line-clamp-2">
-              {authors}
+        <CardHeader className="flex gap-4 flex-1">
+          <div className="flex flex-col gap-4 flex-1">
+            <div>
+              <CardTitle className="text-xl font-semibold leading-tight line-clamp-2">
+                {title}
+              </CardTitle>
+              <CardDescription className="text-sm text-neutral-500 line-clamp-2">
+                {authors}
+              </CardDescription>
+            </div>
+
+            {subjects.length > 0 && (
+              <ul className="flex flex-wrap gap-2">
+                {subjects.map((subject) => (
+                  <li key={subject}>
+                    <Badge className="max-w-full" variant="secondary">
+                      <span className="truncate">{subject}</span>
+                    </Badge>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <CardDescription className="text-foreground line-clamp-2">
+              {description}
             </CardDescription>
           </div>
+        </CardHeader>
+      </div>
 
-          {subjects.length > 0 && (
-            <ul className="flex flex-wrap gap-2">
-              {subjects.map((tag) => (
-                <li key={tag}>
-                  <Badge className="max-w-full" variant="secondary">
-                    <span className="truncate">{tag}</span>
-                  </Badge>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </CardHeader>
-
-      <CardFooter className="flex justify-between items-center mt-auto bg-background">
+      <CardFooter className="flex justify-between items-center bg-background">
         <div className="text-xs flex gap-3 items-center flex-wrap">
           {languages?.length > 0 && (
             <p className="flex items-center gap-1 text-muted-foreground uppercase">
-              <Globe className="w-4 h-4" /> {languages}
+              <GlobeIcon className="w-4 h-4" /> {languages}
             </p>
           )}
           <p className="flex items-center gap-1 text-muted-foreground">
-            <BookIcon className="w-4 h-4" /> {editionCount}
+            <BookIcon className="w-4 h-4" /> {pageCount}
           </p>
         </div>
 
