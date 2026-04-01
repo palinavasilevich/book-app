@@ -1,6 +1,11 @@
 import { BOOKS_API_URL } from "@/shared/constants/endpoints";
-import type { BooksResponse, Language } from "@/shared/types/book.types";
-
+import type {
+  Book,
+  BooksResponse,
+  Language,
+  OpenLibraryBook,
+} from "@/shared/types/book.types";
+import { formatBookData } from "../utils/format-book-data";
 export type BookFilters = {
   languages: Language[];
   genre: string;
@@ -8,6 +13,7 @@ export type BookFilters = {
 };
 
 export const PAGE_SIZE = 25;
+const MAX_RESULTS = 1000;
 
 export async function fetchBooks(
   filters: BookFilters,
@@ -42,4 +48,37 @@ export async function fetchBooks(
   }
 
   return response.json();
+}
+
+function filterBooksByAuthor(
+  books: OpenLibraryBook[],
+  authorQuery: string,
+): OpenLibraryBook[] {
+  const query = authorQuery.toLowerCase().trim();
+  return query
+    ? books.filter((b) =>
+        b.author_name?.some((a) => a.toLowerCase().includes(query)),
+      )
+    : books;
+}
+
+export async function fetchRandomBook(filters: BookFilters): Promise<Book> {
+  const firstPage = await fetchBooks(filters, 0);
+  if (firstPage.numFound === 0 || firstPage.docs.length === 0) {
+    throw new Error("No books found for the selected filters.");
+  }
+
+  const totalResults = Math.min(firstPage.numFound, MAX_RESULTS);
+  const randomOffset = Math.floor(Math.random() * totalResults);
+  const pageOffset = Math.floor(randomOffset / PAGE_SIZE) * PAGE_SIZE;
+
+  const page =
+    pageOffset === 0 ? firstPage : await fetchBooks(filters, pageOffset);
+
+  const results = filterBooksByAuthor(page.docs, filters.author);
+
+  if (results.length === 0) throw new Error("No matching books on this page.");
+
+  const randomBook = results[Math.floor(Math.random() * results.length)];
+  return formatBookData(randomBook);
 }
