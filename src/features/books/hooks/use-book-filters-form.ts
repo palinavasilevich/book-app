@@ -1,6 +1,6 @@
 import { useRandomBook } from "./use-random-book";
 import type { BookFilters } from "../api/books";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm, useWatch, UseFormReturn } from "react-hook-form";
 
 export type BookFiltersFormProps = {
   form: UseFormReturn<BookFilters>;
@@ -19,22 +19,25 @@ export function useBookFiltersForm() {
 
   const resetForm = () => form.reset(DEFAULT_FILTERS);
 
-  const onSubmit = form.handleSubmit((filters) => {
-    console.log(filters);
-    // const {
-    //   data: book,
-    //   isFetching,
-    //   isError,
-    //   error,
-    //   refetch,
-    // } = useRandomBook(filters);
+  const filters = useWatch({ control: form.control }) as BookFilters;
+
+  const {
+    data: book,
+    isFetching,
+    isError,
+    error,
+    refetch,
+  } = useRandomBook(filters);
+
+  const onSubmit = form.handleSubmit(() => {
+    refetch();
   });
 
   return {
-    // book,
-    // isFetching,
-    // isError,
-    // error,
+    book,
+    isFetching,
+    isError,
+    error,
     form,
     onSubmit,
     resetForm,

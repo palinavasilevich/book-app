@@ -7,23 +7,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/kit/select";
+import { Controller } from "react-hook-form";
+import { BookFiltersFormProps } from "../../hooks/use-book-filters-form";
 
-export function SelectGenre() {
+export function SelectGenre({ form }: BookFiltersFormProps) {
   return (
-    <Field className="w-full">
-      <FieldLabel>Genre</FieldLabel>
-      <Select items={GENRES_BOOKS}>
-        <SelectTrigger>
-          <SelectValue placeholder="Select a genre" />
-        </SelectTrigger>
-        <SelectContent>
-          {GENRES_BOOKS.map((genre) => (
-            <SelectItem key={genre.value} value={genre.value}>
-              {genre.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </Field>
+    <Controller
+      name="genre"
+      control={form.control}
+      render={({ field, fieldState }) => (
+        <Field className="w-full" data-invalid={fieldState.invalid}>
+          <FieldLabel htmlFor="form-rhf-select-genre">Genre</FieldLabel>
+          <Select
+            name={field.name}
+            value={field.value}
+            onValueChange={field.onChange}
+          >
+            <SelectTrigger
+              id="form-rhf-select-genre"
+              aria-invalid={fieldState.invalid}
+            >
+              <SelectValue placeholder="Select a genre" />
+            </SelectTrigger>
+            <SelectContent>
+              {GENRES_BOOKS.map((genre) => (
+                <SelectItem key={genre.value} value={genre.value}>
+                  {genre.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+      )}
+    />
   );
 }

@@ -7,33 +7,25 @@ import { BookCardSkeleton } from "./book-card-skeleton";
 import { useBookFiltersForm } from "../hooks/use-book-filters-form";
 
 export function RandomBookSelector() {
-  // const getButtonText = () => {
-  //   if (isFetching) {
-  //     return (
-  //       <>
-  //         <Spinner data-icon="inline-start" />
-  //         Searching for a book...
-  //       </>
-  //     );
-  //   }
-
-  //   if (isDirty) return "Apply filters & get book";
-  //   if (book) return "Try another book";
-
-  //   return "Select a random book";
-  // };
+  const { book, isError, error, isFetching, form, onSubmit, resetForm } =
+    useBookFiltersForm();
 
   return (
     <div className="flex flex-col gap-8">
-      <FiltersForm />
+      <FiltersForm
+        form={form}
+        isFetching={isFetching}
+        onSubmit={onSubmit}
+        resetForm={resetForm}
+      />
 
-      {/* {isError && (
+      {isError && (
         <p className="text-sm text-red-600">
           {error instanceof Error ? error.message : "Something went wrong."}
         </p>
       )}
 
-      {isFetching ? <BookCardSkeleton /> : book && <BookCard book={book} />} */}
+      {isFetching ? <BookCardSkeleton /> : book && <BookCard book={book} />}
     </div>
   );
 }
