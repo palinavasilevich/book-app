@@ -3,6 +3,7 @@ import { Lora, Geist_Mono, Noto_Serif, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Providers } from "@/shared/ui/providers";
+import { Header } from "@/shared/ui/layout/header";
 
 const notoSerifHeading = Noto_Serif({
   subsets: ["latin"],
@@ -51,7 +52,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import type {
   OpenLibraryBook,
 } from "@/shared/types/book.types";
 import { formatBookData } from "../utils/format-book-data";
+
 export type BookFilters = {
   languages: Language[];
   genre: string;

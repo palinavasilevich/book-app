@@ -21,7 +21,6 @@ export function FiltersForm({
   onSubmit,
   resetForm,
 }: FiltersFormProps) {
-
   return (
     <form className="flex flex-col gap-6" onSubmit={onSubmit}>
       <SelectLanguage form={form} />
@@ -33,12 +32,12 @@ export function FiltersForm({
         form={form}
       />
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 justify-between">
         <Button
           type="submit"
           disabled={isFetching || !form.formState.isDirty}
           aria-busy={isFetching}
-          className="w-40 h-10 cursor-pointer transition-colors hover:bg-primary/80"
+          className="flex-1 h-10 cursor-pointer transition-colors hover:bg-primary/80"
         >
           {!isFetching ? (
             "Apply filters & get book"
@@ -53,7 +52,7 @@ export function FiltersForm({
         <Button
           type="reset"
           variant="secondary"
-          className="w-40 h-10 cursor-pointer transition-colors "
+          className="flex-1 h-10 cursor-pointer transition-colors "
           onClick={resetForm}
           disabled={!form.formState.isDirty}
         >

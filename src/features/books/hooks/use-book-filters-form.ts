@@ -1,4 +1,4 @@
-import { useForm, useWatch } from "react-hook-form";
+import { useForm, UseFormReturn, useWatch } from "react-hook-form";
 import { useRandomBook } from "./use-random-book";
 import type { BookFilters } from "../api/books";
 
@@ -6,6 +6,10 @@ const DEFAULT_FILTERS: BookFilters = {
   languages: [],
   author: "",
   genre: "",
+};
+
+export type BookFiltersFormProps = {
+  form: UseFormReturn<BookFilters>;
 };
 
 export function useBookFiltersForm() {

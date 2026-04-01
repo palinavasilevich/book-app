@@ -7,7 +7,12 @@ import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   const isLight = resolvedTheme === "light";
 
@@ -16,20 +21,24 @@ export function ThemeToggle() {
   };
 
   if (!mounted) {
-    return <Button variant="outline" size="icon" disabled aria-label="Toggle theme"><Sun className="h-[1.2rem] w-[1.2rem]" /></Button>;
+    return (
+      <Button variant="outline" size="icon" disabled aria-label="Toggle theme">
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
+      </Button>
+    );
   }
 
   return (
     <Button
-      variant="outline"
+      variant={isLight ? "outline" : "default"}
       size="icon"
       onClick={toggleTheme}
       aria-label={`Toggle ${isLight ? "dark" : "light"} mode`}
     >
       {isLight ? (
-        <Moon className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <Moon className="h-[1.2rem] w-[1.2rem]" />
       ) : (
-        <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
       )}
     </Button>
   );
