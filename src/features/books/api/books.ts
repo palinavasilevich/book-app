@@ -3,7 +3,6 @@ import type {
   Book,
   BooksResponse,
   Language,
-  OpenLibraryBook,
 } from "@/shared/types/book.types";
 import { formatBookData } from "../utils/format-book-data";
 
@@ -14,7 +13,7 @@ export type BookFilters = {
 };
 
 export const PAGE_SIZE = 25;
-const RANDOM_BOOK_POOL_SIZE = 100;
+const MAX_RANDOM_OFFSET = 999;
 
 export async function fetchBooks(
   filters: BookFilters,
@@ -52,28 +51,24 @@ export async function fetchBooks(
   return response.json();
 }
 
-function filterBooksByAuthor(
-  books: OpenLibraryBook[],
-  authorQuery: string,
-): OpenLibraryBook[] {
-  const query = authorQuery.toLowerCase().trim();
-  return query
-    ? books.filter((b) =>
-        b.author_name?.some((a) => a.toLowerCase().includes(query)),
-      )
-    : books;
-}
-
 export async function fetchRandomBook(filters: BookFilters): Promise<Book> {
-  const pool = await fetchBooks(filters, 0, RANDOM_BOOK_POOL_SIZE);
-  if (pool.numFound === 0 || pool.docs.length === 0) {
+  const countResult = await fetchBooks(filters, 0, 1);
+  if (countResult.numFound === 0 || countResult.docs.length === 0) {
     throw new Error("No books found for the selected filters.");
   }
 
-  const results = filterBooksByAuthor(pool.docs, filters.author);
+  const randomOffset = Math.floor(
+    Math.random() * Math.min(countResult.numFound, MAX_RANDOM_OFFSET + 1),
+  );
 
-  if (results.length === 0) throw new Error("No matching books on this page.");
+  if (randomOffset === 0) {
+    return formatBookData(countResult.docs[0]);
+  }
 
-  const randomBook = results[Math.floor(Math.random() * results.length)];
-  return formatBookData(randomBook);
+  const result = await fetchBooks(filters, randomOffset, 1);
+  if (result.docs.length === 0) {
+    throw new Error("No matching books at this offset.");
+  }
+
+  return formatBookData(result.docs[0]);
 }
