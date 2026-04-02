@@ -14,15 +14,16 @@ export type BookFilters = {
 };
 
 export const PAGE_SIZE = 25;
-const MAX_RESULTS = 1000;
+const RANDOM_BOOK_POOL_SIZE = 100;
 
 export async function fetchBooks(
   filters: BookFilters,
   offset = 0,
+  limit = PAGE_SIZE,
 ): Promise<BooksResponse> {
   const params = new URLSearchParams();
 
-  params.set("limit", String(PAGE_SIZE));
+  params.set("limit", String(limit));
   params.set(
     "fields",
     "key,title,author_name,subject,cover_i,first_publish_year,first_sentence,language,number_of_pages_median",
@@ -64,19 +65,12 @@ function filterBooksByAuthor(
 }
 
 export async function fetchRandomBook(filters: BookFilters): Promise<Book> {
-  const firstPage = await fetchBooks(filters, 0);
-  if (firstPage.numFound === 0 || firstPage.docs.length === 0) {
+  const pool = await fetchBooks(filters, 0, RANDOM_BOOK_POOL_SIZE);
+  if (pool.numFound === 0 || pool.docs.length === 0) {
     throw new Error("No books found for the selected filters.");
   }
 
-  const totalResults = Math.min(firstPage.numFound, MAX_RESULTS);
-  const randomOffset = Math.floor(Math.random() * totalResults);
-  const pageOffset = Math.floor(randomOffset / PAGE_SIZE) * PAGE_SIZE;
-
-  const page =
-    pageOffset === 0 ? firstPage : await fetchBooks(filters, pageOffset);
-
-  const results = filterBooksByAuthor(page.docs, filters.author);
+  const results = filterBooksByAuthor(pool.docs, filters.author);
 
   if (results.length === 0) throw new Error("No matching books on this page.");
 
