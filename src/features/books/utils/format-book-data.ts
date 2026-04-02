@@ -8,9 +8,7 @@ export const formatBookData = (book: OpenLibraryBook): Book => {
     cover_i,
     subject,
     language,
-    edition_count,
     number_of_pages_median,
-    first_publish_year,
     first_sentence,
   } = book;
 
@@ -22,9 +20,7 @@ export const formatBookData = (book: OpenLibraryBook): Book => {
       ? `https://covers.openlibrary.org/b/id/${cover_i}-M.jpg`
       : null,
     subjects: subject?.slice(0, 3) || [],
-    firstPublishYear: first_publish_year,
     languages: language?.slice(0, 5).join(", ") ?? "",
-    editionCount: edition_count,
     pageCount: number_of_pages_median || "Pages Unknown",
     description: Array.isArray(first_sentence)
       ? first_sentence[0]
