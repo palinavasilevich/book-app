@@ -1,9 +1,5 @@
 import { BOOKS_API_URL } from "@/shared/constants/endpoints";
-import type {
-  Book,
-  BooksResponse,
-  Language,
-} from "@/shared/types/book.types";
+import type { Book, BooksResponse, Language } from "@/shared/types/book.types";
 import { formatBookData } from "../utils/format-book-data";
 
 export type BookFilters = {

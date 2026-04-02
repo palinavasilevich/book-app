@@ -29,7 +29,7 @@ export function SelectGenre({ form }: BookFiltersFormProps) {
             >
               <SelectValue placeholder="Select a genre" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="px-4">
               {GENRES_BOOKS.map((genre) => (
                 <SelectItem key={genre.value} value={genre.value}>
                   {genre.label}
