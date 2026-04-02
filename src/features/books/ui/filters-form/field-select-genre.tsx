@@ -10,7 +10,7 @@ import {
 import { Controller } from "react-hook-form";
 import { BookFiltersFormProps } from "../../hooks/use-book-filters-form";
 
-export function SelectGenre({ form }: BookFiltersFormProps) {
+export function FieldSelectGenre({ form }: BookFiltersFormProps) {
   return (
     <Controller
       name="genre"
@@ -29,7 +29,7 @@ export function SelectGenre({ form }: BookFiltersFormProps) {
             >
               <SelectValue placeholder="Select a genre" />
             </SelectTrigger>
-            <SelectContent className="px-4">
+            <SelectContent className="px-4 py-3">
               {GENRES_BOOKS.map((genre) => (
                 <SelectItem key={genre.value} value={genre.value}>
                   {genre.label}

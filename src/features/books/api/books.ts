@@ -6,6 +6,8 @@ export type BookFilters = {
   languages: Language[];
   genre: string;
   author: string;
+  firstPublishYearFrom?: number;
+  firstPublishYearTo?: number;
 };
 
 export const PAGE_SIZE = 25;
@@ -21,7 +23,7 @@ export async function fetchBooks(
   params.set("limit", String(limit));
   params.set(
     "fields",
-    "key,title,author_name,subject,cover_i,first_publish_year,first_sentence,language,number_of_pages_median",
+    "key,title,author_name,subject,cover_i,first_sentence,language,number_of_pages_median",
   );
 
   if (offset > 0) {
@@ -37,6 +39,14 @@ export async function fetchBooks(
   }
 
   filters.languages?.forEach((lang) => params.append("language", lang));
+
+  const from = filters.firstPublishYearFrom;
+  const to = filters.firstPublishYearTo;
+  if (from || to) {
+    const min = from ?? "*";
+    const max = to ?? "*";
+    params.set("q", `first_publish_year:[${min} TO ${max}]`);
+  }
 
   const response = await fetch(`${BOOKS_API_URL}?${params.toString()}`);
 

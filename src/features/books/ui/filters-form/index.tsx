@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/shared/ui/kit/button";
-import { SelectGenre } from "./select-genre";
-
-import { SelectLanguage } from "./select-language";
 import { FieldInput } from "./field-input";
+import { FieldYearRange } from "./field-year-range";
 
 import { type BookFiltersFormProps } from "../../hooks/use-book-filters-form";
 import { Spinner } from "@/shared/ui/kit/spinner";
+import { FieldSelectLanguage } from "./field-select-language";
+import { FieldSelectGenre } from "./field-select-genre";
 
 type FiltersFormProps = BookFiltersFormProps & {
   isFetching: boolean;
@@ -23,14 +23,15 @@ export function FiltersForm({
 }: FiltersFormProps) {
   return (
     <form className="flex flex-col gap-6" onSubmit={onSubmit}>
-      <SelectLanguage form={form} />
-      <SelectGenre form={form} />
+      <FieldSelectLanguage form={form} />
+      <FieldSelectGenre form={form} />
       <FieldInput
         name="author"
         label="Author"
         placeholder="Enter the author's name, e.g. Archibald Cronin"
         form={form}
       />
+      <FieldYearRange form={form} />
 
       <div className="flex gap-4 justify-between">
         <Button

@@ -13,10 +13,7 @@ export type OpenLibraryBook = {
   number_of_pages_median?: number;
   subject?: string[];
   cover_i?: number;
-  first_publish_year?: number;
-  edition_count: number;
   language: Language[];
-  isbn?: string[];
   first_sentence?: string[] | { type: string; value: string };
 };
 
@@ -26,8 +23,6 @@ export type Book = {
   authors: string;
   subjects: string[];
   coverUrl: string | null;
-  firstPublishYear?: number;
-  editionCount?: number;
   languages: string;
   pageCount: number | string;
   description?: string;

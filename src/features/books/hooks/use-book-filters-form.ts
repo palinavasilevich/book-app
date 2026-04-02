@@ -7,6 +7,8 @@ const DEFAULT_FILTERS: BookFilters = {
   languages: [],
   author: "",
   genre: "",
+  firstPublishYearFrom: undefined,
+  firstPublishYearTo: undefined,
 };
 
 export type BookFiltersFormProps = {

@@ -10,7 +10,7 @@ import {
 import { Controller } from "react-hook-form";
 import { BookFiltersFormProps } from "../../hooks/use-book-filters-form";
 
-export function SelectLanguage({ form }: BookFiltersFormProps) {
+export function FieldSelectLanguage({ form }: BookFiltersFormProps) {
   return (
     <Controller
       name="languages"
@@ -39,7 +39,6 @@ export function SelectLanguage({ form }: BookFiltersFormProps) {
                           );
                       field.onChange(newValue);
                     }}
-                    // defaultChecked={language.value === "eng"}
                   />
                   <FieldLabel
                     htmlFor={`form-rhf-checkbox-${language.value}`}
