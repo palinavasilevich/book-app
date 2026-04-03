@@ -16,6 +16,7 @@ export function RandomBookSelector() {
     onSubmit,
     resetForm,
     refetchNew,
+    isFiltersChanged,
   } = useBookFiltersForm();
 
   return (
@@ -38,13 +39,15 @@ export function RandomBookSelector() {
       ) : (
         book && (
           <>
-            <Button
-              variant="secondary"
-              onClick={() => refetchNew()}
-              className="w-40 m-auto h-10 cursor-pointer bg-primary/50 hover:bg-primary/80"
-            >
-              Try another book
-            </Button>
+            {!isFiltersChanged && (
+              <Button
+                variant="secondary"
+                onClick={() => refetchNew()}
+                className="w-40 m-auto h-10 cursor-pointer bg-primary/50 hover:bg-primary/80"
+              >
+                Try another book
+              </Button>
+            )}
             <BookCard book={book} />
           </>
         )

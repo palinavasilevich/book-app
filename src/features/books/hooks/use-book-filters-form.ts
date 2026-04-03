@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { useForm, useWatch, UseFormReturn } from "react-hook-form";
 import { useRandomBook } from "./use-random-book";
 import type { BookFilters } from "../api/books";
 
@@ -24,6 +24,12 @@ export function useBookFiltersForm() {
     useState<BookFilters>(DEFAULT_FILTERS);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const currentValues = useWatch({ control: form.control });
+
+  const isFiltersChanged =
+    isSubmitted &&
+    JSON.stringify(currentValues) !== JSON.stringify(appliedFilters);
 
   const {
     data: book,
@@ -53,5 +59,6 @@ export function useBookFiltersForm() {
     onSubmit,
     resetForm,
     refetchNew,
+    isFiltersChanged,
   };
 }
