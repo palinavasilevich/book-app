@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchRandomBook, type BookFilters } from "../api/books";
 
-export function useRandomBook(filters: BookFilters, fetchCount: number, enabled: boolean) {
+export function useRandomBook(filters: BookFilters, enabled: boolean) {
   return useQuery({
-    queryKey: ["random-book", filters, fetchCount],
+    queryKey: ["random-book", filters],
     queryFn: () => fetchRandomBook(filters),
     enabled,
     staleTime: 5 * 60 * 1000,

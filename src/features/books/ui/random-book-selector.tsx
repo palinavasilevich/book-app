@@ -4,18 +4,25 @@ import { FiltersForm } from "./filters-form";
 import { BookCard } from "./book-card";
 import { BookCardSkeleton } from "./book-card-skeleton";
 import { useBookFiltersForm } from "../hooks/use-book-filters-form";
+import { Button } from "@/shared/ui/kit/button";
 
 export function RandomBookSelector() {
-  const { book, isError, error, isFetching, form, onSubmit, resetForm } =
-    useBookFiltersForm();
+  const {
+    book,
+    isError,
+    error,
+    isFetching,
+    form,
+    onSubmit,
+    resetForm,
+    refetchNew,
+  } = useBookFiltersForm();
 
   return (
     <div className="flex flex-col gap-8">
       <FiltersForm
         form={form}
         isFetching={isFetching}
-        hasResult={!!book}
-        submitButtonText={book ? "Try another book" : undefined}
         onSubmit={onSubmit}
         resetForm={resetForm}
       />
@@ -26,7 +33,22 @@ export function RandomBookSelector() {
         </p>
       )}
 
-      {isFetching ? <BookCardSkeleton /> : book && <BookCard book={book} />}
+      {isFetching ? (
+        <BookCardSkeleton />
+      ) : (
+        book && (
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => refetchNew()}
+              className="w-40 m-auto h-10 cursor-pointer bg-primary/50 hover:bg-primary/80"
+            >
+              Try another book
+            </Button>
+            <BookCard book={book} />
+          </>
+        )
+      )}
     </div>
   );
 }
