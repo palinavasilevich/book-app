@@ -11,6 +11,8 @@ import { FieldSelectGenre } from "./field-select-genre";
 
 type FiltersFormProps = BookFiltersFormProps & {
   isFetching: boolean;
+  hasResult?: boolean;
+  submitButtonText?: string;
   onSubmit: React.ComponentProps<"form">["onSubmit"];
   resetForm: () => void;
 };
@@ -18,6 +20,8 @@ type FiltersFormProps = BookFiltersFormProps & {
 export function FiltersForm({
   form,
   isFetching,
+  hasResult = false,
+  submitButtonText = "Apply filters & get book",
   onSubmit,
   resetForm,
 }: FiltersFormProps) {
@@ -28,7 +32,7 @@ export function FiltersForm({
       <FieldInput
         name="author"
         label="Author"
-        placeholder="Enter the author's name, e.g. Archibald Cronin"
+        placeholder="Enter the author's name, e.g. Brandon Sanderson"
         form={form}
       />
       <FieldYearRange form={form} />
@@ -36,12 +40,12 @@ export function FiltersForm({
       <div className="flex gap-4 justify-between">
         <Button
           type="submit"
-          disabled={isFetching || !form.formState.isDirty}
+          disabled={isFetching || (!hasResult && !form.formState.isDirty)}
           aria-busy={isFetching}
           className="flex-1 h-10 cursor-pointer transition-colors hover:bg-primary/80"
         >
           {!isFetching ? (
-            "Apply filters & get book"
+            submitButtonText
           ) : (
             <>
               <Spinner data-icon="inline-start" />

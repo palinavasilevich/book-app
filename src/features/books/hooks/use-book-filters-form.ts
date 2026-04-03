@@ -24,23 +24,26 @@ export function useBookFiltersForm() {
     useState<BookFilters>(DEFAULT_FILTERS);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [fetchCount, setFetchCount] = useState(0);
 
   const {
     data: book,
     isFetching,
     isError,
     error,
-  } = useRandomBook(appliedFilters, isSubmitted);
+  } = useRandomBook(appliedFilters, fetchCount, isSubmitted);
 
   const onSubmit = form.handleSubmit((data) => {
     setAppliedFilters(data);
     setIsSubmitted(true);
+    setFetchCount((c) => c + 1);
   });
 
   const resetForm = () => {
     form.reset(DEFAULT_FILTERS);
     setAppliedFilters(DEFAULT_FILTERS);
     setIsSubmitted(false);
+    setFetchCount(0);
   };
 
   return {

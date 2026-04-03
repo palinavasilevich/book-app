@@ -2,7 +2,6 @@
 
 import { FiltersForm } from "./filters-form";
 import { BookCard } from "./book-card";
-
 import { BookCardSkeleton } from "./book-card-skeleton";
 import { useBookFiltersForm } from "../hooks/use-book-filters-form";
 
@@ -15,6 +14,8 @@ export function RandomBookSelector() {
       <FiltersForm
         form={form}
         isFetching={isFetching}
+        hasResult={!!book}
+        submitButtonText={book ? "Try another book" : undefined}
         onSubmit={onSubmit}
         resetForm={resetForm}
       />
